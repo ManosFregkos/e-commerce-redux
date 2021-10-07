@@ -34,7 +34,13 @@
       }
 
       li {
+        display: inline-block;
         list-style-type: none;
+        margin-right: 15px;
+
+        &:last-child {
+          margin-right: 0px;
+        }
 
         a {
           font-size: 18px;
