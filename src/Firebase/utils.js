@@ -42,6 +42,6 @@ export const handleUserProfile = async (userAuth, additionalData) => {
       console.log(err);
     }
   }
-  //kai epistrefw olo to userRef
+  //kai epistrefw olo to userRef gia na kanw update to state tou app
   return userRef;
 };
