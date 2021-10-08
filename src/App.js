@@ -9,6 +9,8 @@ import HomepageLayout from "./Layouts/HomepageLayout";
 import Homepage from "./pages/Homepage";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
+
 import "./index.scss";
 import React from "react";
 
@@ -87,6 +89,14 @@ class App extends React.Component {
                 </MainLayout>
               )
             }
+          />
+          <Route
+            path="reset-password"
+            render={() => (
+              <MainLayout>
+                <ResetPassword />
+              </MainLayout>
+            )}
           />
         </Switch>
       </div>
