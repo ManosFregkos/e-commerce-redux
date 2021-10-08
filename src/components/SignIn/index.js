@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "../Forms/Button";
 import { signInWithGoogle, auth } from "../../../src/Firebase/utils";
 import FormInput from "../Forms/FormInput";
@@ -67,6 +68,9 @@ class SignIn extends React.Component {
             <div className="socialSignIn">
               <div className="row">
                 <Button onClick={signInWithGoogle}>Sign In With Google</Button>
+              </div>
+              <div className="links">
+                <Link to="/reset-password">Reset Password</Link>
               </div>
             </div>
           </form>

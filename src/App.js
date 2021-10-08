@@ -13,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword";
 
 import "./index.scss";
 import React from "react";
+import EmailPassword from "./components/EmailPassword";
 
 const initialState = {
   currentUser: null,
@@ -91,7 +92,7 @@ class App extends React.Component {
             }
           />
           <Route
-            path="reset-password"
+            path="/reset-password"
             render={() => (
               <MainLayout>
                 <ResetPassword />
