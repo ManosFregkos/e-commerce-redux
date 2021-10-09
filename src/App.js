@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { auth, handleUserProfile } from "../src/Firebase/utils";
 import { setCurrentUser } from "./redux/User/user.actions";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 //hoc
 import WithAuth from "./hoc/withAuth";
@@ -21,20 +21,22 @@ import Dashboard from "./pages/Dashboard.js";
 import "./index.scss";
 
 const App = (props) => {
-  const { setCurrentUser, currentUser } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const authListener = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await handleUserProfile(userAuth);
         userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
+          dispatch(
+            setCurrentUser({
+              id: snapshot.id,
+              ...snapshot.data(),
+            })
+          );
         });
       }
-      setCurrentUser(userAuth);
+      dispatch(setCurrentUser(userAuth));
     });
 
     return () => {
@@ -93,12 +95,4 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

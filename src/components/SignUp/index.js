@@ -1,17 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetAllAuthForms, signUpUser } from "../../redux/User/user.actions";
 import AuthWrapper from "../AuthWrapper";
 import FormInput from "../Forms/FormInput";
 import Button from "../Forms/Button";
-import { auth, handleUserProfile } from "../../Firebase/utils";
 import "./styles.scss";
 
 const SignUp = (props) => {
+  const signUpSuccess = useSelector((state) => state.user.signUpSuccess);
+  const signUpError = useSelector((state) => state.user.signUpError);
+
+  const dispatch = useDispatch();
+
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPasswrod] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (signUpSuccess) {
+      resetForm();
+      dispatch(resetAllAuthForms());
+      props.history.push("/");
+    }
+  }, [signUpSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(signUpError) && signUpError.length > 0) {
+      setErrors(signUpError);
+    }
+  }, [signUpError]);
 
   const resetForm = () => {
     setDisplayName("");
@@ -21,28 +41,16 @@ const SignUp = (props) => {
     setErrors([]);
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
-
-    if (password !== confirmPassword) {
-      const err = ["Password Don't match"];
-      setErrors(err);
-      return;
-    }
-
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
+    dispatch(
+      signUpUser({
+        displayName,
         email,
-        password
-      );
-      await handleUserProfile(user, { displayName });
-
-      //reset the state after signup
-      resetForm();
-      props.history.push("/");
-    } catch (err) {
-      console.log(err);
-    }
+        password,
+        confirmPassword,
+      })
+    );
   };
 
   const configAuthWrapper = {
