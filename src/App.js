@@ -13,6 +13,8 @@ import WithAdminAuth from "./hoc/withAdminAuth";
 //layouts
 import MainLayout from "./Layouts/MainLayout";
 import HomepageLayout from "./Layouts/HomepageLayout";
+import AdminLayout from "./Layouts/AdminLayout";
+import DashBoardLayout from "./Layouts/DashboardLayout";
 
 //pages
 import Homepage from "./pages/Homepage";
@@ -21,6 +23,7 @@ import Login from "./pages/Login";
 import ResetPassword from "./../src/pages/ResetPassword";
 import Dashboard from "./pages/Dashboard.js";
 import Admin from "./pages/Admin";
+import Search from "./pages/Search";
 
 import "./index.scss";
 
@@ -42,6 +45,15 @@ const App = (props) => {
             <HomepageLayout>
               <Homepage />
             </HomepageLayout>
+          )}
+        />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
           )}
         />
         <Route
@@ -72,9 +84,9 @@ const App = (props) => {
           path="/dashboard"
           render={() => (
             <WithAuth>
-              <MainLayout>
+              <DashBoardLayout>
                 <Dashboard />
-              </MainLayout>
+              </DashBoardLayout>
             </WithAuth>
           )}
         />
@@ -82,9 +94,9 @@ const App = (props) => {
           path="/admin"
           render={() => (
             <WithAdminAuth>
-              <MainLayout>
+              <AdminLayout>
                 <Admin />
-              </MainLayout>
+              </AdminLayout>
             </WithAdminAuth>
           )}
         />

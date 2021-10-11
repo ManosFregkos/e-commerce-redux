@@ -11,15 +11,18 @@ import FormSelect from "./../../components/Forms/FormSelect";
 import Button from "./../../components/Forms/Button";
 import "./styles.scss";
 
+const mapState = ({ productsData }) => ({
+  products: productsData.products,
+});
+
 const Admin = (props) => {
   const dispatch = useDispatch();
+  const { products } = useSelector(mapState);
   const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState("mens");
   const [productName, setProductName] = useState("");
   const [productThumbnail, setProductThumbnail] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-
-  const products = useSelector((state) => state.productsData.products);
 
   useEffect(() => {
     dispatch(fetchProductsStart());
