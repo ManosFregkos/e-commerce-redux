@@ -11,13 +11,9 @@ import FormSelect from "./../../components/Forms/FormSelect";
 import Button from "./../../components/Forms/Button";
 import "./styles.scss";
 
-const mapState = ({ productsData }) => ({
-  products: productsData.products,
-});
-
 const Admin = (props) => {
   const dispatch = useDispatch();
-  const { products } = useSelector(mapState);
+  const products = useSelector((state) => state.productsData.products);
   const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState("mens");
   const [productName, setProductName] = useState("");
@@ -26,7 +22,7 @@ const Admin = (props) => {
 
   useEffect(() => {
     dispatch(fetchProductsStart());
-  }, []);
+  }, [dispatch]);
 
   const toggleModal = () => setHideModal(!hideModal);
 
@@ -39,8 +35,8 @@ const Admin = (props) => {
     setHideModal(true);
     setProductCategory("mens");
     setProductName("");
-    setProductPrice(0);
     setProductThumbnail("");
+    setProductPrice(0);
   };
 
   const handleSubmit = (e) => {

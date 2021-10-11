@@ -6,16 +6,21 @@ export const handleAddProduct = (product) => {
       .collection("product")
       .doc()
       .set(product)
-      .then(() => resolve())
-      .catch((err) => reject(err));
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 };
 
-export const handleFetchProducts = () => {
+export const handleFetchProducts = ({ filterType }) => {
   return new Promise((resolve, reject) => {
-    firestore
-      .collection("products")
-      .orderBy("createdDate")
+    let ref = firestore.collection("products").orderBy("createdDate");
+
+    if (filterType) ref = ref.where("productCategory", "==", filterType);
+    ref
       .get()
       .then((snapshot) => {
         const productsArray = snapshot.docs.map((doc) => {
